@@ -1,0 +1,9 @@
+{
+    "securityPolicy": {
+      "policyId": null
+    },
+    "type": "website",
+    "hostnames": [],
+    "filePaths": [],
+    "isNegativePathMatch": false
+}

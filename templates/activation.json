@@ -1,0 +1,13 @@
+{
+    "network": "",
+    "action": "ACTIVATE",
+    "method": "FAST",
+    "note":"Requested from CLI",
+    "notificationEmails":[],
+    "activationConfigs": [
+        {
+            "configId": -1,
+            "configVersion": -1
+        }
+    ]
+}

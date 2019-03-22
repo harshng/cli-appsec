@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+
+"use strict";
+
+let logger = require('../src/constants').logger('main');
+let version = require('../package.json').version;
+
+require("sywac")
+  .commandDirectory('./commands')
+  .boolean("--json", {
+    desc: "Print the raw json response. All commands respect this option.",
+    group: "Command options:",
+    required: false
+  })
+  .string("--edgerc", {
+    desc: "The full path to the .edgerc file.",
+    group: "Command options:",
+    required: false
+  })
+  .string("--section", {
+    desc: "The section of .edgerc to use.",
+    group: "Command options:",
+    required: false
+  })
+  .showHelpByDefault()
+  .help("--help", {
+    group: "Command options:",
+    desc: "Prints help information."
+  })
+  .boolean("--version", {
+    group: "Command options:",
+    desc: "Current version of the program."
+  })
+  .epilogue("Copyright (C) Akamai Technologies, Inc\nVisit http://github.com/akamai/cli-appsec for detailed documentation\n")
+  .outputSettings({
+    maxWidth: 110
+  })
+  .parse()
+  .then(result => {
+    if (result.errors.length) {
+      let err = result.errors[0]+'' || JSON.stringify(result.errors[0]);
+      logger.error("ERROR: ", err);
+      console.error(err);
+      process.exit(result.code);
+    }
+    if(result.argv.version && result.details.args.length == 1) {
+      //print version info
+      console.log(version);
+      process.exit(0);
+    }
+    else if (result.output) {
+      let output = result.output.replace(/akamai-appsec/,'akamai appsec');
+      if(result.code != 0) {
+        console.error(output);
+      } else {
+        console.log(output);
+      }
+      process.exit(result.code);
+    }
+  });
